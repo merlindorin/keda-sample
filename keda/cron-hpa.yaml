@@ -1,0 +1,41 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cron-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: server
+  pollingInterval: 3
+  cooldownPeriod: 5
+  advanced:
+    restoreToOriginalReplicaCount: true
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Europe/Paris
+        start: "1-59/2 * * * *"
+        end: "0-58/2 * * * *"
+        desiredReplicas: "0"
+
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cron-redis-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: redis
+  pollingInterval: 3
+  cooldownPeriod: 5
+  advanced:
+    restoreToOriginalReplicaCount: true
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Europe/Paris
+        start: "1-59/2 * * * *"
+        end: "0-58/2 * * * *"
+        desiredReplicas: "0"
+---
